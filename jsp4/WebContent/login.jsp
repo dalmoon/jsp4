@@ -25,14 +25,36 @@ function checkValue(){
 	}
 	return true;
 }
+function formSubmit(){
+	var param = {};
+	param["id"] = document.getElementById("id").value;
+	param["pwd"] = document.getElementById("pwd").value;
+	
+	/*alert(param);
+	alert(param.id);
+	alert(param.pwd);
+	alert(JSON.stringify(param));*/
+	
+	param = [{"id" : "test1", "pwd" : "password1"},
+		{"id" : "test2", "pwd" : "password2"}];
+	alert(param[0].id);
+	alert(param[0].pwd);
+	alert(param[1].id);
+	alert(param[1].pwd);
+}
 </script>
-<form method='get' action="/test.login" onsubmit="return checkValue()">
+<form method='post' action="/test.login" onsubmit="return checkValue()">
 아이디 : <input type="text" name="id" id="id"><br>
 비밀번호 : <input type="password" name="pwd" id="pwd"><br>
-<input type="submit" value="login">
-
-
-
+<input type="button" value="login" onclick="formSubmit()">
 </form>
 </body>
 </html>
+
+
+
+
+
+
+
+
