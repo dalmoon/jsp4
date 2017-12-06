@@ -1,3 +1,4 @@
+<%@page import="com.test.jsp.common.ListExam"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
@@ -11,26 +12,36 @@
 </head>
 <body>
 <%
-ArrayList<HashMap<String,String>> al = new ArrayList<HashMap<String,String>>();
-HashMap<String,String> hm = new HashMap<String,String>();
-hm.put("name","홍길동");
-hm.put("age","33");
-al.add(hm);
-//HashMap<String,String> hm1 = new HashMap<String,String>();
-hm.put("name","달문");
-hm.put("age","29");
-al.add(hm);
+
+ListExam le = new ListExam();
+ArrayList<HashMap<String, String>> userList = le.getUserList();
+
 %>
 <table border="1">
 	<tr>
+		<th>유저번호</th>
 		<th><%=str1%></th>
 		<th><%=str2%></th>
+		<th>주소</th>
+		<th>아이디</th>
+		<th>비밀번호</th>
+		<th>부서번호</th>
+		<th>부서이름</th>
+		<th>부서설명</th>
+		
 	</tr>
 <%
-for(HashMap<String,String> map : al){
+for(HashMap<String,String> map : userList){
 	out.println("<tr>");
-	out.println("<td>" + map.get("name") + "</td>");
-	out.println("<td>" + map.get("age") + "</td>");
+	out.println("<td>" + map.get("userno") + "</td>");
+	out.println("<td>" + map.get("username") + "</td>");
+	out.println("<td>" + map.get("userage") + "</td>");
+	out.println("<td>" + map.get("useraddress") + "</td>");
+	out.println("<td>" + map.get("userid") + "</td>");
+	out.println("<td>" + map.get("userpwd") + "</td>");
+	out.println("<td>" + map.get("dino") + "</td>");
+	out.println("<td>" + map.get("diname") + "</td>");
+	out.println("<td>" + map.get("dietc") + "</td>");
 	out.println("</tr>");
 }
 %>
