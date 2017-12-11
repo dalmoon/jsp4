@@ -1,3 +1,4 @@
+<%@page import="java.util.HashMap"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/common/header.jsp" %>
@@ -8,18 +9,40 @@
 <title>로그인</title>
 </head>
 <script>
-function login() {
+function callback(re){
+	var obj = JSON.parse(re);
+	alert(obj.result);
+	alert(obj.msg);
+}
+function login(){
 	var url = 'list.user';
-	var param = '?cmd=list';
+	var id = document.getElementById("id");
+	var pwd = document.getElementById("pwd");
+	var param = '?cmd=login&id=' + id.value + "&pwd=" + pwd.value;
 	var au = new AjaxUtil(url,param);
+	au.changeCallBack(callback);
 	au.send();
 }
 </script>
 <body>
+<%
+HashMap<String, String> user = null;
+user = (HashMap<String, String>) session.getAttribute("user");
+if(user!=null){
+out.println(user.get("username") + "님 환영해요~~");
+out.println(user.get("userage") + "살 이시네요");
+out.println(user.get("diname") + "부서시군요");
+}else{
+%>
+<div id="resutDiv">
+</div>
 <form method='post' action="/te.login">
 아이디 : <input type="text" name="id" id="id"><br>
 비밀번호 : <input type="password" name="pwd" id="pwd"><br>
 <input type="button" value="login" onclick="login()">
 </form>
+<%
+}
+%>
 </body>
 </html>
