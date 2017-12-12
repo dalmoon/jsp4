@@ -11,8 +11,10 @@
 <script>
 function callback(re){
 	var obj = JSON.parse(re);
-	alert(obj.result);
 	alert(obj.msg);
+	if(obj.result='ok'){
+		location.reload();
+	}
 }
 function login(){
 	var url = 'list.user';
@@ -26,12 +28,9 @@ function login(){
 </script>
 <body>
 <%
-HashMap<String, String> user = null;
-user = (HashMap<String, String>) session.getAttribute("user");
 if(user!=null){
-out.println(user.get("username") + "님 환영해요~~");
-out.println(user.get("userage") + "살 이시네요");
-out.println(user.get("diname") + "부서시군요");
+out.println(user.getUserName() + "님 환영해요~~");
+out.println(user.getUserAge() + "살 이시네요");
 }else{
 %>
 <div id="resutDiv">
