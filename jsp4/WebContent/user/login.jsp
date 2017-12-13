@@ -8,40 +8,64 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>로그인</title>
 </head>
-<script>
-function callback(re){
-	var obj = JSON.parse(re);
-	alert(obj.msg);
-	if(obj.result='ok'){
-		location.reload();
-	}
-}
-function login(){
-	var url = 'list.user';
-	var id = document.getElementById("id");
-	var pwd = document.getElementById("pwd");
-	var param = '?cmd=login&id=' + id.value + "&pwd=" + pwd.value;
-	var au = new AjaxUtil(url,param);
-	au.changeCallBack(callback);
-	au.send();
-}
-</script>
-<body>
+<link rel="stylesheet" href="<%=rootPath%>/ui/sign.css"/>
+<div class="container">
 <%
 if(user!=null){
 out.println(user.getUserName() + "님 환영해요~~");
 out.println(user.getUserAge() + "살 이시네요");
 }else{
 %>
-<div id="resutDiv">
-</div>
-<form method='post' action="/te.login">
-아이디 : <input type="text" name="id" id="id"><br>
-비밀번호 : <input type="password" name="pwd" id="pwd"><br>
-<input type="button" value="login" onclick="login()">
-</form>
+
+	<form class="form-signin" action="/login.user" method="post">
+		<h2 class="form-signin-heading">Please login</h2>
+		<label for="inputEmail" class="sr-only">ID</label> <input type="text"
+			id="id" name="id" class="form-control" placeholder="ID" required
+			autofocus> <label for="inputPassword" class="sr-only">Password</label>
+		<input type="password" name="pwd" id="pwd" class="form-control"
+			placeholder="Password" required>
+		<div class="checkbox">
+			<label> <input type="checkbox" value="remember-me">
+				Remember me
+			</label>
+		</div>
+		<input type="hidden" name="command" value="login"/>
+		<input  class="btn btn-lg btn-primary btn-block"
+			type="button" id="loginBtn" value="Login">
+	</form>
+
+
+<script>
+function afterLogin(obj){
+	//var obj = JSON.parse(re);
+	alert(obj.msg);
+	if(obj.result=='ok'){
+		location.reload();
+	}
+}
+$("#loginBtn").click(function(){
+	var url = "list.user";
+	var id = $("#id").val();
+	var pwd = $("#pwd").val();
+	var params = {};
+	params["id"] = id;
+	params["pwd"] = pwd;
+	params["cmd"] = "login";
+	$.ajax({
+		type : "post",
+		url : url,
+		datatype: "json",
+		data : params,
+		success : afterLogin,
+		error : function(xhr,status){
+			alert("에러 : " + xhr.responseText);
+		}
+	});
+});
+</script>
 <%
 }
 %>
+</div>
 </body>
 </html>

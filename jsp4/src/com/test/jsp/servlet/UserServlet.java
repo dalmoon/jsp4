@@ -55,8 +55,7 @@ public class UserServlet extends HttpServlet {
 		} else if (cmd.equals("login")) {
 			String id = req.getParameter("id");
 			String pwd = req.getParameter("pwd");
-			HashMap<String, String> hm
-			= new HashMap<String, String>();
+			HashMap<String, String> hm = new HashMap<String, String>();
 			try {
 				UserInfo ui = us.getUser(id, pwd);
 				if (ui == null) {
@@ -77,6 +76,19 @@ public class UserServlet extends HttpServlet {
 			HttpSession hs = req.getSession();
 			hs.invalidate();
 			res.sendRedirect("/user/login.jsp");
+		} else if (cmd.equals("join")) {
+			String params = req.getParameter("params");
+			Gson gs = new Gson();
+			HashMap hm = gs.fromJson(params, HashMap.class);
+			int result = us.insertUser(hm);
+			hm.put("result", "no");
+			hm.put("msg", "회원가입에 실패하셨습니다.");
+			if (result != 0) {
+				hm.put("result", "ok");
+				hm.put("msg", "회원가입에 성공하셨습니다.");
+				hm.put("url", "/user/login.jsp");
+			}
+			out.println(gs.toJson(hm));
 		} else {
 			res.sendRedirect("/error.jsp");
 		}
