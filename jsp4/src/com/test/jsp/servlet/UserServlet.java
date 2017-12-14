@@ -40,18 +40,9 @@ public class UserServlet extends HttpServlet {
 		if (cmd == null) {
 			res.sendRedirect("/error.jsp");
 		} else if (cmd.equals("list")) {
-			String html = "";
-			ArrayList<HashMap<String, String>> userList = us.getUserList();
-			for (HashMap<String, String> map : userList) {
-				html += "<tr>";
-				Iterator<String> it = map.keySet().iterator();
-				while (it.hasNext()) {
-					String key = it.next();
-					html += "<td>" + map.get(key) + "</td>";
-				}
-				html += "</tr>";
-			}
-			out.println(html);
+			ArrayList<UserInfo> userList = us.getUserList();
+			Gson gs = new Gson();
+			out.println(gs.toJson(userList));
 		} else if (cmd.equals("login")) {
 			String id = req.getParameter("id");
 			String pwd = req.getParameter("pwd");
@@ -79,8 +70,9 @@ public class UserServlet extends HttpServlet {
 		} else if (cmd.equals("join")) {
 			String params = req.getParameter("params");
 			Gson gs = new Gson();
-			HashMap hm = gs.fromJson(params, HashMap.class);
-			int result = us.insertUser(hm);
+			UserInfo ui = gs.fromJson(params, UserInfo.class);
+			int result = us.insertUser(ui);
+			HashMap<String, String> hm = new HashMap<String, String>();
 			hm.put("result", "no");
 			hm.put("msg", "회원가입에 실패하셨습니다.");
 			if (result != 0) {
