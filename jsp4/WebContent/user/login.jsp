@@ -54,7 +54,7 @@ $("#loginBtn").click(function(){
 	$.ajax({
 		type : "post",
 		url : url,
-		datatype: "json",
+		dataType: "json",
 		data : params,
 		success : afterLogin,
 		error : function(xhr,status){

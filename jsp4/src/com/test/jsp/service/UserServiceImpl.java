@@ -119,4 +119,72 @@ public class UserServiceImpl implements UserService {
 		}
 		return result;
 	}
+
+	@Override
+	public UserInfo getUser(int userNo) {
+		DBCon dbCon = new DBCon();
+		Connection con = null;
+		UserInfo ui = null;
+		try {
+			con = dbCon.getConnection();
+			String sql = "select * from user_info ui," + " depart_info di" + " where ui.dino = di.dino";
+			sql += " and ui.userNo=?";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, userNo);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				ui = new UserInfo();
+				ui.setUserNo(rs.getInt("userno"));
+				ui.setUserName(rs.getString("username"));
+				ui.setUserId(rs.getString("userid"));
+				ui.setUserPwd(rs.getString("userpwd"));
+				ui.setUserAddress(rs.getString("useraddress"));
+				ui.setDiNo(rs.getInt("dino"));
+				ui.setUserAge(rs.getInt("userage"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				dbCon.closeCon();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return ui;
+	}
+
+	@Override
+	public int deleteUser(UserInfo ui) {
+		int result = 0;
+		DBCon dbCon = new DBCon();
+		try {
+			Connection con = dbCon.getConnection();
+			String sql = "select count(1) from user_info"
+					+ " where userno=? and userpwd=?";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, ui.getUserNo());
+			ps.setString(2, ui.getUserPwd());
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				int cnt = rs.getInt(1);
+				if(cnt==1) {
+					sql = "delete from user_info"
+							+ " where userno=?";
+					ps = con.prepareStatement(sql);
+					ps.setInt(1, ui.getUserNo());
+					result = ps.executeUpdate();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				dbCon.closeCon();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
 }
