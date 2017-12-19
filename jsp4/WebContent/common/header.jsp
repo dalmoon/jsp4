@@ -2,6 +2,9 @@
 <%@page import="java.util.HashMap"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -19,7 +22,6 @@
 		url = rootPath + "/user/logout.user?cmd=logout";
 	}
 %>
-
 <script src="<%=rootPath%>/js/jquery-3.2.1.min.js"></script>
 <script src="<%=rootPath%>/js/ajax_util.js"></script>
 <script src="<%=rootPath%>/ui/btsp3.3.2/js/bootstrap.min.js"></script>

@@ -93,6 +93,39 @@ public class UserServiceImpl implements UserService {
 		return result;
 	}
 
+	public int updateUser(UserInfo ui) {
+		int result = 0;
+		DBCon dbCon = new DBCon();
+		try {
+			Connection con = dbCon.getConnection();
+			String sql = "update user_info\r\n" + 
+					"set username=?,\r\n" + 
+					"userpwd=?,\r\n" + 
+					"userage=?,\r\n" + 		
+					"useraddress=?,\r\n" + 
+					"dino=?\r\n" + 
+					"where\r\n" + 
+					"userno=?";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, ui.getUserName());
+			ps.setString(2, ui.getUserPwd());
+			ps.setInt(3, ui.getUserAge());
+			ps.setString(4, ui.getUserAddress());
+			ps.setInt(5, 1);
+			ps.setInt(6, ui.getUserNo());
+			result = ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				dbCon.closeCon();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+
 	public int insertUser(UserInfo ui) {
 		int result = 0;
 		DBCon dbCon = new DBCon();
@@ -160,17 +193,15 @@ public class UserServiceImpl implements UserService {
 		DBCon dbCon = new DBCon();
 		try {
 			Connection con = dbCon.getConnection();
-			String sql = "select count(1) from user_info"
-					+ " where userno=? and userpwd=?";
+			String sql = "select count(1) from user_info" + " where userno=? and userpwd=?";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setInt(1, ui.getUserNo());
 			ps.setString(2, ui.getUserPwd());
 			ResultSet rs = ps.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				int cnt = rs.getInt(1);
-				if(cnt==1) {
-					sql = "delete from user_info"
-							+ " where userno=?";
+				if (cnt == 1) {
+					sql = "delete from user_info" + " where userno=?";
 					ps = con.prepareStatement(sql);
 					ps.setInt(1, ui.getUserNo());
 					result = ps.executeUpdate();

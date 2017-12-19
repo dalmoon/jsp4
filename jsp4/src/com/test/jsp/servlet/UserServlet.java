@@ -86,9 +86,9 @@ public class UserServlet extends HttpServlet {
 			UserInfo ui = us.getUser(userNo);
 			Gson gs = new Gson();
 			out.println(gs.toJson(ui));
-		} else if(cmd.equals("delete")){
+		} else if (cmd.equals("delete")) {
 			String checkPwd = req.getParameter("checkPwd");
-			UserInfo ui = (UserInfo)req.getSession().getAttribute("user");
+			UserInfo ui = (UserInfo) req.getSession().getAttribute("user");
 			ui.setUserPwd(checkPwd);
 			int result = us.deleteUser(ui);
 			HashMap<String, String> hm = new HashMap<String, String>();
@@ -101,8 +101,33 @@ public class UserServlet extends HttpServlet {
 			}
 			Gson gs = new Gson();
 			out.println(gs.toJson(hm));
-		}
-		else {
+		} else if (cmd.equals("update")) {
+			int result = us.updateUser(null);
+			HashMap<String, String> hm = new HashMap<String, String>();
+			hm.put("result", "no");
+			hm.put("msg", "회원수정이 실패하셨습니다.");
+			if (result != 0) {
+				hm.put("result", "ok");
+				hm.put("msg", "회원수정이 성공하셨습니다.");
+				hm.put("url", "/user/view.jsp?userno=");
+			}
+			Gson gs = new Gson();
+			out.println(gs.toJson(hm));
+		} else if (cmd.equals("checkPwd")) {
+			String checkPwd = req.getParameter("checkPwd");
+			HttpSession hs = req.getSession();
+			UserInfo ui = (UserInfo) hs.getAttribute("user");
+			String userPwd = ui.getUserPwd();
+			HashMap<String, String> hm = new HashMap<String, String>();
+			hm.put("result", "no");
+			hm.put("msg", "비밀번호가 틀렸습니다.");
+			if (checkPwd.equals(userPwd)) {
+				hm.put("result", "ok");
+				hm.put("msg", "");
+			}
+			Gson gs = new Gson();
+			out.println(gs.toJson(hm));
+		} else {
 			res.sendRedirect("/error.jsp");
 		}
 	}
