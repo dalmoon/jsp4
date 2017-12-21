@@ -20,16 +20,19 @@
 			</thead>
 			<tbody id="result_tbody">
 				<c:forEach items="${departList}" var="dp">
-					<c:if test="${dp.dino % 2 ==1}">
-						<tr>
-							<td>${dp.dino}</td>
-							<td>${dp.diname}</td>
-							<td>${dp.didesc}</td>
-						</tr>
-					</c:if>
+					<tr onclick="goView(${dp.diNo})">
+						<td>${dp.diNo}</td>
+						<td>${dp.diName}</td>
+						<td>${dp.diEtc}</td>
+					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
 	</div>
+	<script>
+function goView(diNo){
+	location.href="/depart/view?dino=" + diNo;
+}
+</script>
 </body>
 </html>

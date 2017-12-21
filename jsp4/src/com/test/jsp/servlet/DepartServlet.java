@@ -22,33 +22,35 @@ public class DepartServlet extends HttpServlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 		doProcess(req, res);
 	}
+
 	private String getCommandFormUri(String uri) {
 		int idx = uri.lastIndexOf("/");
-		if(idx!=-1) {
-			return uri.substring(idx+1);
+		if (idx != -1) {
+			return uri.substring(idx + 1);
 		}
 		return uri;
 	}
+
 	public void doProcess(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-		req.setCharacterEncoding("utf-8");
-		
+
 		String uri = req.getRequestURI();
 		String cmd = getCommandFormUri(uri);
 		System.out.println(cmd);
-		
-		uri = uri.replace("/s", "/");
-		if(cmd.equals("list")) {
-			ds.selectDepartList(req);
-		}else if(cmd.equals("view")) {
-			
-		}else if(cmd.equals("update")) {
-			
-		}else if(cmd.equals("insert")) {
-			
-		}else {
+
+		if (cmd.equals("list")) {
+			req.setAttribute("departList", ds.selectDepartList());
+		} else if (cmd.equals("view")) {
+			String diNo = req.getParameter("dino");
+			System.out.println(diNo);
+			req.setAttribute("depart", ds.selectDepart());
+		} else if (cmd.equals("update")) {
+			req.setAttribute("depart", ds.selectDepart());
+		} else if (cmd.equals("insert")) {
+
+		} else {
 			uri = "/error";
 		}
-		RequestDispatcher rd = req.getRequestDispatcher(uri + ".jsp");
+		RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/view" + uri + ".jsp");
 		rd.forward(req, res);
 	}
 }
