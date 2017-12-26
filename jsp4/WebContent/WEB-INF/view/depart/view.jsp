@@ -23,8 +23,16 @@
 					<td>부서설명</td>
 					<td>${depart.diEtc}</td>
 				</tr>
+				<tr>
+					<td colspan="2"><button onclick="goUpdate()">수정</button></td>
+				</tr>
 			</tbody>
 		</table>
 	</div>
+	<script>
+		function goUpdate() {
+			location.href = "/depart/update?dino=${depart.diNo}";
+		}
+	</script>
 </body>
 </html>

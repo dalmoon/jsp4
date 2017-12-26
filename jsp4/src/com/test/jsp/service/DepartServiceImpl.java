@@ -14,12 +14,12 @@ import com.test.jsp.dto.DepartInfo;
 public class DepartServiceImpl implements DepartService {
 
 	@Override
-	public ArrayList<DepartInfo> selectDepartList() {
+	public ArrayList<DepartInfo> selectDepartList(String search, String searchStr) {
 		ArrayList<DepartInfo> departList = null;
 		DBCon dbCon = new DBCon();
 		try {
 			DepartDAO ddao = new DepartDAOImpl(dbCon.getConnection());
-			departList = ddao.selectDepartList();
+			departList = ddao.selectDepartList(search, searchStr);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -39,9 +39,9 @@ public class DepartServiceImpl implements DepartService {
 		try {
 			DepartDAO ddao = new DepartDAOImpl(dbCon.getConnection());
 			di = ddao.selectDepart(diNo);
-		} catch (ClassNotFoundException |SQLException e) {
+		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			try {
 				dbCon.closeCon();
 			} catch (SQLException e) {
@@ -50,12 +50,12 @@ public class DepartServiceImpl implements DepartService {
 		}
 		return di;
 	}
-	
+
 	public DepartInfo selectDepart() {
-		HashMap<String,Object> hm = new HashMap<String,Object>();
+		HashMap<String, Object> hm = new HashMap<String, Object>();
 		hm.put("dino", 1);
-		hm.put("diname",1+"번째 부서");
-		hm.put("didesc",1+"번째 부서 설명");
+		hm.put("diname", 1 + "번째 부서");
+		hm.put("didesc", 1 + "번째 부서 설명");
 		return null;
 	}
 
@@ -65,7 +65,42 @@ public class DepartServiceImpl implements DepartService {
 	}
 
 	@Override
-	public void insertDepart(HttpServletRequest req) {
+	public int insertDepart(DepartInfo di) {
+		int result = 0;
+		DBCon dbCon = new DBCon();
+		try {
+			DepartDAO ddao = new DepartDAOImpl(dbCon.getConnection());
+			result = ddao.insertDepart(di);
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				dbCon.closeCon();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+
+	}
+
+	@Override
+	public int deleteDepart(DepartInfo di) {
+		int result = 0;
+		DBCon dbCon = new DBCon();
+		try {
+			DepartDAO ddao = new DepartDAOImpl(dbCon.getConnection());
+			result = ddao.deleteDepart(di);
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				dbCon.closeCon();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
 
 	}
 
