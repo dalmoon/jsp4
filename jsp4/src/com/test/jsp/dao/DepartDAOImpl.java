@@ -21,7 +21,7 @@ public class DepartDAOImpl implements DepartDAO {
 		PreparedStatement ps = con.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
 		ArrayList<DepartInfo> diList = new ArrayList<DepartInfo>();
-		while(rs.next()) {
+		while (rs.next()) {
 			DepartInfo di = new DepartInfo();
 			di.setDiNo(rs.getInt("dino"));
 			di.setDiName(rs.getString("diname"));
@@ -32,7 +32,19 @@ public class DepartDAOImpl implements DepartDAO {
 	}
 
 	@Override
-	public DepartInfo selectDepart() {
+	public DepartInfo selectDepart(int diNo) throws SQLException {
+		String sql = "select * from depart_info where dino=?";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setInt(1, diNo);
+		ResultSet rs = ps.executeQuery();
+		ArrayList<DepartInfo> diList = new ArrayList<DepartInfo>();
+		while (rs.next()) {
+			DepartInfo di = new DepartInfo();
+			di.setDiNo(rs.getInt("dino"));
+			di.setDiName(rs.getString("diname"));
+			di.setDiEtc(rs.getString("dietc"));
+			return di;
+		}
 		return null;
 	}
 

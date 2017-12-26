@@ -32,7 +32,9 @@ public class DepartServlet extends HttpServlet {
 	}
 
 	public void doProcess(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-
+		
+		String str = req.getCharacterEncoding();
+		System.out.println(str);
 		String uri = req.getRequestURI();
 		String cmd = getCommandFormUri(uri);
 		System.out.println(cmd);
@@ -42,7 +44,7 @@ public class DepartServlet extends HttpServlet {
 		} else if (cmd.equals("view")) {
 			String diNo = req.getParameter("dino");
 			System.out.println(diNo);
-			req.setAttribute("depart", ds.selectDepart());
+			req.setAttribute("depart", ds.selectDepart(Integer.parseInt(diNo)));
 		} else if (cmd.equals("update")) {
 			req.setAttribute("depart", ds.selectDepart());
 		} else if (cmd.equals("insert")) {

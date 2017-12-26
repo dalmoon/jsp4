@@ -36,18 +36,27 @@ public class DepartServiceImpl implements DepartService {
 	public DepartInfo selectDepart(int diNo) {
 		DepartInfo di = null;
 		DBCon dbCon = new DBCon();
-		hm.put("dino", 1);
-		hm.put("diname", 1 + "번째 부서");
-		hm.put("didesc", 1 + "번째 부서 설명");
-		return hm;
+		try {
+			DepartDAO ddao = new DepartDAOImpl(dbCon.getConnection());
+			di = ddao.selectDepart(diNo);
+		} catch (ClassNotFoundException |SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				dbCon.closeCon();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return di;
 	}
 	
 	public DepartInfo selectDepart() {
-		HashMap<String, Object> hm = new HashMap<String, Object>();
+		HashMap<String,Object> hm = new HashMap<String,Object>();
 		hm.put("dino", 1);
-		hm.put("diname", 1 + "번째 부서");
-		hm.put("didesc", 1 + "번째 부서 설명");
-		return hm;
+		hm.put("diname",1+"번째 부서");
+		hm.put("didesc",1+"번째 부서 설명");
+		return null;
 	}
 
 	@Override
