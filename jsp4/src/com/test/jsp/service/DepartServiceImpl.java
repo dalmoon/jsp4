@@ -60,7 +60,22 @@ public class DepartServiceImpl implements DepartService {
 	}
 
 	@Override
-	public void updateDepart(HttpServletRequest req) {
+	public int updateDepart(DepartInfo di) {
+		int result = 0;
+		DBCon dbCon = new DBCon();
+		try {
+			DepartDAO ddao = new DepartDAOImpl(dbCon.getConnection());
+			result = ddao.updateDepart(di);
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				dbCon.closeCon();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
 
 	}
 

@@ -22,12 +22,38 @@
 			
    		<label for="id" class="sr-only">주소</label> <input type="text"
 			id="address" name="address" class="form-control" placeholder="주소" required>
-			
+		
+		<label for="dino" class="sr-only">부서</label>
+		<select name="dino" id="dino">
+		</select>
 		<input  class="btn btn-lg btn-primary btn-block"
 			type="button" id="joinBtn" value="회원가입">
 	</form>
 	<script>
-function afterLogin(obj){
+function callback(result){
+	var str = "";
+	for(var di of result){
+		str += "<option value='" + di.diNo + "'>" + di.diName + "</option>"
+	}
+	$("#dino").html(str);
+}
+$(document).ready(function(){
+	var url = "dino.user";
+	var param = {};
+	param["cmd"] = "dino";
+	$.ajax({
+		type : "post",
+		url : url,
+		dataType: "json",
+		data : param,
+		success : callback,
+		error : function(xhr,status){
+			alert("에러 : " + xhr.responseText);
+		}
+	});
+})
+	
+	function afterLogin(obj){
 	//var obj = JSON.parse(re);
 	alert(obj.msg);
 	if(obj.result=='ok'){
@@ -35,6 +61,7 @@ function afterLogin(obj){
 		location.href=obj.url;
 	}
 }
+
 $("#joinBtn").click(function(){
 	var url = "join.user";
 	var params = {};
@@ -43,6 +70,7 @@ $("#joinBtn").click(function(){
 	params["userName"] = $("#name").val();
 	params["userAge"] = $("#age").val();
 	params["userAddress"] = $("#address").val();
+	params["diNo"] = $("#dino").val();
 	
 	var param = {};
 	param["cmd"] = "join"

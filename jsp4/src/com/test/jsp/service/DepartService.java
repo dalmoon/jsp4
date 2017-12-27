@@ -11,7 +11,7 @@ public interface DepartService {
 	public ArrayList<DepartInfo> selectDepartList(String search, String searchStr);
 	public DepartInfo selectDepart(int diNo);
 	public DepartInfo selectDepart();
-	public void updateDepart(HttpServletRequest req);
+	public int updateDepart(DepartInfo di);
 	public int insertDepart(DepartInfo di);
 	public int deleteDepart(DepartInfo di);
 }

@@ -50,6 +50,7 @@
 					<th class="text-center" data-field="userAge">Age</th>
 					<th class="text-center" data-field="userName">Name</th>
 					<th class="text-center" data-field="userAddress">Address</th>
+					<th class="text-center" data-field="diNo">diNo</th>
 				</tr>
 			</thead>
 			<tbody id="result_tbody">

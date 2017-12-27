@@ -54,8 +54,14 @@ public class DepartDAOImpl implements DepartDAO {
 	}
 
 	@Override
-	public void updateDepart() {
-
+	public int updateDepart(DepartInfo di) throws SQLException {
+		String sql = "update depart_info set diname=?, dietc=? where dino=?";
+		PreparedStatement ps = con.prepareStatement(sql);
+		ps.setString(1, di.getDiName());
+		ps.setString(2, di.getDiEtc());
+		ps.setInt(3, di.getDiNo());
+		int result = ps.executeUpdate();
+		return result;
 	}
 
 	@Override
