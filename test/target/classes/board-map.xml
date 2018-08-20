@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.test.mapper.BoardMap">
+
+	<resultMap id="boardMap" type="com.test.board.BoardVO">
+		<result property="seq" column="seq" />
+		<result property="title" column="title" />
+		<result property="writer" column="writer" />
+		<result property="content" column="content" />
+		<result property="regdate" column="regdate" />
+		<result property="cnt" column="cnt" />
+	</resultMap>
+	
+	<select id="list" parameterType="com.test.board.BoardVO" resultType="com.test.board.BoardVO">
+		SELECT * FROM BOARD
+	</select>
+
+</mapper>
